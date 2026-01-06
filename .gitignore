@@ -1,0 +1,14 @@
+-- Default options from Lazyvim
+tt.*
+.tests
+doc/tags
+debug
+.repro
+foo.*
+*.log
+data
+
+-- My things
+.DS_Store
+undodir/
+lazy-lock.json
