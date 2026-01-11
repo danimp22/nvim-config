@@ -21,7 +21,7 @@ vim.fn.jobstart({ "git", "-C", config_path, "pull", "--rebase" }, {
       -- Optional: Notify only if there were actual changes
       vim.notify("Config synced successfully!", vim.log.levels.INFO)
     elseif exit_code ~= 0 then
-      vim.notify("Git pull failed. Check your config repo.", vim.log.levels.WARN)
+      vim.notify("No new config files.", vim.log.levels.WARN)
     end
   end,
 })
