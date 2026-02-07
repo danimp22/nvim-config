@@ -28,13 +28,14 @@ vim.fn.jobstart({ "git", "-C", config_path, "pull", "--rebase" }, {
 
 -- Detect automatically the OpenFOAM files as C++
 vim.filetype.add({
-  -- 1. Match by extension
+  -- 1. Match by Extension (for .foam files)
   extension = {
-    foam = "cpp", -- Treats .foam files as C++
+    foam = "cpp",
   },
 
-  -- 2. Match by exact filename (Common dictionaries)
+  -- 2. Match by EXACT Filename (The most reliable method)
   filename = {
+    -- Dictionaries
     ["controlDict"] = "cpp",
     ["blockMeshDict"] = "cpp",
     ["snappyHexMeshDict"] = "cpp",
@@ -42,23 +43,25 @@ vim.filetype.add({
     ["fvSolution"] = "cpp",
     ["transportProperties"] = "cpp",
     ["turbulenceProperties"] = "cpp",
+    ["thermophysicalProperties"] = "cpp",
     ["sampleDict"] = "cpp",
+
+    -- Fields (The files inside the "0" folder)
+    ["U"] = "cpp", -- Velocity
+    ["p"] = "cpp", -- Pressure
+    ["T"] = "cpp", -- Temperature
+    ["rho"] = "cpp", -- Density
+    ["phi"] = "cpp", -- Flux
+    ["nut"] = "cpp", -- Viscosity
+    ["k"] = "cpp", -- Kinetic Energy
+    ["epsilon"] = "cpp", -- Dissipation
+    ["omega"] = "cpp", -- Specific Dissipation
+    ["alphat"] = "cpp", -- Thermal Diffusivity
   },
 
-  -- 3. Match by Pattern (Any file ending in Dict)
+  -- 3. Catch-all for other dictionaries
   pattern = {
     [".*Dict"] = "cpp",
     [".*Properties"] = "cpp",
-
-    -- 4. SMART DETECTION: Check file content for "FoamFile" header
-    -- This catches files like 0/U, 0/p, constant/polyMesh/boundary
-    [".*"] = function(path, buf)
-      local content = vim.api.nvim_buf_get_lines(buf, 0, 15, false)
-      for _, line in ipairs(content) do
-        if line:match("FoamFile") then
-          return "cpp"
-        end
-      end
-    end,
   },
 })
