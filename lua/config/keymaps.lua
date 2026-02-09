@@ -5,6 +5,10 @@
 -- Exit insert mode
 vim.keymap.set("i", "jj", "<Esc>")
 
+-- Paste text and don't put the deleted text into the paste registry
+-- Greatest remap ever!!
+vim.keymap.set("x", "<leader>p", "\"_dP")
+
 -- Center screen after scrolling with <C-d> or <C-u>
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
