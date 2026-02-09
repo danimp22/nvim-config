@@ -7,6 +7,7 @@ vim.keymap.set("i", "jj", "<Esc>")
 
 -- Paste text and don't put the deleted text into the paste registry
 -- Greatest remap ever!!
+-- stylua: ignore
 vim.keymap.set("x", "<leader>p", "\"_dP")
 
 -- Center screen after scrolling with <C-d> or <C-u>
