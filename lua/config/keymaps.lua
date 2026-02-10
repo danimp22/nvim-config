@@ -30,6 +30,7 @@ vim.keymap.set("n", "<c-n>", "<Plug>(YankyNextEntry)")
 -- Open terminal from leader
 local wk = require("which-key")
 wk.add({ "<leader>t", group = "Terminal" })
+vim.keymap.set("n", "<leader>tt", ":terminal<cr>A", { desc = "Open terminal in new buffer" })
 vim.keymap.set("n", "<leader>tv", [[<cmd>vsplit | term<cr>A]], { desc = "Open terminal in vertical split" })
 vim.keymap.set("n", "<leader>th", [[<cmd>split | term<cr>A]], { desc = "Open terminal in horizontal split" })
 vim.keymap.set("t", "jj", "<C-\\><C-n>", { desc = "Use jj to enter in terminal normal mode" })
