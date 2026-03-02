@@ -1,3 +1,4 @@
+-- ############################ BASE NVIM ############################ --
 -- Map leader key
 vim.g.mapleader = " "
 
@@ -20,26 +21,49 @@ vim.keymap.set("n", "<C-b>", "<C-b>zz")
 vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 
--- Telescope
-local tlcp = require("telescope.builtin")
-vim.keymap.set("n", "<leader>ff", tlcp.find_files, { desc = "Telescope find files" })
-vim.keymap.set("n", "<leader>fg", tlcp.git_files, { desc = "Telescope git files" })
-
-
 -- Open terminal from leader
 vim.keymap.set("n", "<leader>tt", ":terminal<cr>A", { desc = "Open terminal in new buffer" })
 vim.keymap.set("n", "<leader>tv", [[<cmd>vsplit | term<cr>A]], { desc = "Open terminal in vertical split" })
 vim.keymap.set("n", "<leader>th", [[<cmd>split | term<cr>A]], { desc = "Open terminal in horizontal split" })
 vim.keymap.set("t", "jj", "<C-\\><C-n>", { desc = "Use jj to enter in terminal normal mode" })
 
+
+-- ############################ TELESCOPE ############################ --
+local tlcp = require("telescope.builtin")
+vim.keymap.set("n", "<leader>ff", tlcp.find_files, { desc = "Telescope find files" })
+vim.keymap.set("n", "<leader>fg", tlcp.git_files, { desc = "Telescope git files" })
+
+-- ############################ HARPOON ############################ --
+local harpoon = require("harpoon")
+
+-- REQUIRED
+harpoon:setup()
+-- REQUIRED
+
+vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
+vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
+vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end)
+vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end)
+vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end)
+vim.keymap.set("n", "<leader>5", function() harpoon:list():select(5) end)
+vim.keymap.set("n", "<leader>6", function() harpoon:list():select(6) end)
+vim.keymap.set("n", "<leader>7", function() harpoon:list():select(7) end)
+vim.keymap.set("n", "<leader>8", function() harpoon:list():select(8) end)
+vim.keymap.set("n", "<leader>9", function() harpoon:list():select(9) end)
+
+
+-- ############################ UNDO-TREE ############################ --
 -- Set keymaps for the undo-tree
 vim.keymap.set("n", "<leader>uu", vim.cmd.UndotreeToggle, { desc = "Toggle Undo Tree" })
 
---
---
---
---
--- ################## LazyVim settings ##################
+
+
+
+
+
+-- ################## LAZYVIM SETTINGS ##################
 local map = vim.keymap.set
 
 -- better up/down
