@@ -9,11 +9,11 @@ vim.opt.relativenumber = true
 -- Snacks animations (I'm trying false for the moment)
 vim.g.snacks_animate = false
 
+-- Clear highlights on search when pressing <Esc> in normal mode
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
 -- Disable autoformatting
 vim.g.autoformat = false
-
--- Synch with system clipboard
--- vim.opt.clipboard = vim.env.SSH_CONNECTION and "" or "unnamedplus"
 
 -- Enable highlighting of the current line
 vim.opt.cursorline = true

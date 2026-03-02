@@ -32,6 +32,10 @@ vim.keymap.set("t", "jj", "<C-\\><C-n>", { desc = "Use jj to enter in terminal n
 local tlcp = require("telescope.builtin")
 vim.keymap.set("n", "<leader>ff", tlcp.find_files, { desc = "Telescope find files" })
 vim.keymap.set("n", "<leader>fg", tlcp.git_files, { desc = "Telescope git files" })
+vim.keymap.set('n', '<leader><leader>', tlcp.buffers, { desc = 'Find existing buffers' })
+
+-- Shortcut for searching your Neovim configuration files
+vim.keymap.set('n', '<leader>sn', function() tlcp.find_files { cwd = vim.fn.stdpath 'config' } end, { desc = '[S]earch [N]eovim files' })
 
 -- ############################ HARPOON ############################ --
 local harpoon = require("harpoon")
