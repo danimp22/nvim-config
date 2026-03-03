@@ -11,6 +11,9 @@
 vim.cmd("autocmd BufEnter * set formatoptions-=cro")
 vim.cmd("autocmd BufEnter * setlocal formatoptions-=cro")
 
+-- Start lualine
+require('lualine').setup()
+
 -- Do a git pull every time we open nvim to sync settings
 local config_path = vim.fn.stdpath("config")
 

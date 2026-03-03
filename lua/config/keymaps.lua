@@ -46,12 +46,16 @@ local harpoon = require("harpoon")
 
 -- REQUIRED
 harpoon:setup()
--- REQUIRED
 
+-- Reset harpoon list
+vim.keymap.set("n", "<leader>hc", function() harpoon:list():clear() print("Harpoon list cleared") end)
+
+-- Add and remove items to harpoon
 vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end)
 vim.keymap.set("n", "<leader>hr", function() harpoon:list():remove() end)
 vim.keymap.set("n", "<leader>he", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
+-- Access harpooon files
 vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
 vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end)
 vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end)
