@@ -35,10 +35,10 @@ vim.opt.ruler = false
 vim.opt.smartcase = true
 
 -- Decrease update time
-vim.o.updatetime = 250
+-- vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time
-vim.o.timeoutlen = 300
+-- vim.o.timeoutlen = 300
 
 -- Don't show the mode, since it's already in the status line
 vim.o.showmode = false
