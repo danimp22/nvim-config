@@ -8,6 +8,14 @@ return {
     -- 1. Initialize Mason
     require("mason").setup()
 
+    -- ADD THIS BLOCK: Broadcast completion capabilities globally
+    local lspconfig_defaults = require('lspconfig').util.default_config
+    lspconfig_defaults.capabilities = vim.tbl_deep_extend(
+      'force',
+      lspconfig_defaults.capabilities,
+      require('cmp_nvim_lsp').default_capabilities()
+    )
+
     -- 2. Optional: Configure custom settings natively BEFORE setting up mason-lspconfig
     vim.lsp.config("pyright", {
       settings = {

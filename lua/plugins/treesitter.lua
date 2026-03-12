@@ -16,7 +16,7 @@ return {
       additional_vim_regex_highlighting = false,
     },
   },
-  config = function(_, opts)
-    require("nvim-treesitter.configs").setup(opts)
-  end
+  -- config = function(_, opts)
+  --   require("nvim-treesitter.configs").setup(opts)
+  -- end
 }
