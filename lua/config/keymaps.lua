@@ -53,7 +53,11 @@ vim.keymap.set("n", "<leader>hc", function() harpoon:list():clear() print("Harpo
 -- Add and remove items to harpoon
 vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end)
 vim.keymap.set("n", "<leader>hr", function() harpoon:list():remove() end)
+vim.keymap.set("n", "<leader>hc", function() harpoon:list():clear() print("Cleared harpoon list") end)
 vim.keymap.set("n", "<leader>he", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+-- Simplify remove terminal
+vim.keymap.set("n", "<leader>htr", function() harpoon:list():remove_at(1) end)
 
 -- Access harpooon files
 vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
