@@ -57,7 +57,18 @@ vim.keymap.set("n", "<leader>hc", function() harpoon:list():clear() print("Clear
 vim.keymap.set("n", "<leader>he", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
 -- Simplify remove terminal
-vim.keymap.set("n", "<leader>htr", function() harpoon:list():remove_at(1) end)
+vim.keymap.set("n", "<leader>htt", function()
+  -- Replace "terminal" with the exact Neovim command your <leader>tt mapping runs
+  vim.cmd("terminal") 
+  
+  -- Equivalent to "jj" to exit terminal insert mode
+  vim.cmd("stopinsert") 
+  
+  -- Overwrites index 1 with the newly created terminal buffer
+  harpoon:list():replace_at(1) 
+  
+  print("Restarted terminal")
+end)
 
 -- Access harpooon files
 vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
