@@ -29,6 +29,11 @@ vim.fn.jobstart({ "git", "-C", config_path, "pull", "--rebase" }, {
   end,
 })
 
+
+
+
+
+
 -- Detect automatically the OpenFOAM files as C++
 vim.filetype.add({
   -- 1. Match by Extension (for .foam files)
@@ -46,6 +51,7 @@ vim.filetype.add({
     ["fvSolution"] = "cpp",
     ["transportProperties"] = "cpp",
     ["turbulenceProperties"] = "cpp",
+    ["physicalProperties"] = "cpp",
     ["thermophysicalProperties"] = "cpp",
     ["sampleDict"] = "cpp",
 
@@ -65,9 +71,16 @@ vim.filetype.add({
   -- 3. Catch-all for other dictionaries
   pattern = {
     [".*Dict"] = "cpp",
+    -- ["*Dict"] = "cpp",
     [".*Properties"] = "cpp",
+    -- ["*Properties"] = "cpp",
+    [".*orig"] = "cpp",
+    -- ["*orig"] = "cpp",
+    [".*template"] = "cpp",
+    -- ["*template"] = "cpp",
   },
 })
+
 
 -- ############### LazyVim autocmds ############### --
 local function augroup(name)

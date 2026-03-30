@@ -32,7 +32,7 @@ vim.keymap.set("t", "jj", "<C-\\><C-n>", { desc = "Use jj to enter in terminal n
 local tlcp = require("telescope.builtin")
 vim.keymap.set("n", "<leader>ff", tlcp.find_files, { desc = "Find files" })
 vim.keymap.set("n", "<leader>fg", tlcp.git_files, { desc = "Find git files" })
-vim.keymap.set("n", "<leader>fr", tlcp.grep_string, { desc = "Find words" })
+vim.keymap.set("n", "<leader>fw", tlcp.grep_string, { desc = "Find words" })
 vim.keymap.set("n", "<leader><leader>", tlcp.buffers, { desc = "Find existing buffers" })
 
 -- Shortcut for searching your Neovim configuration files
