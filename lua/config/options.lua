@@ -55,8 +55,5 @@ vim.opt.splitright = true
 -- Language spelling
 vim.opt.spelllang = { "en" }
 
--- Snacks animations (I'm trying false for the moment)
-vim.g.snacks_animate = false
-
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0

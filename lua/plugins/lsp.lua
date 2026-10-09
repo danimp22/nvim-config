@@ -1,48 +1,74 @@
 return {
-  "neovim/nvim-lspconfig",
-  dependencies = {
-    "mason-org/mason.nvim",
-    "mason-org/mason-lspconfig.nvim",
+  -- Completion
+  {
+    "saghen/blink.cmp",
+    version = "1.*", -- uses prebuilt binaries, no need to compile anything
+    dependencies = { "rafamadriz/friendly-snippets" },
+    opts = {
+      keymap = { preset = "default" }, -- see "Completion keys" below
+      sources = { default = { "lsp", "path", "snippets", "buffer" } },
+      completion = { documentation = { auto_show = true } },
+    },
   },
-  config = function()
-    -- 1. Initialize Mason
-    require("mason").setup()
 
-    -- ADD THIS BLOCK: Broadcast completion capabilities globally
-    local lspconfig_defaults = require('lspconfig').util.default_config
-    lspconfig_defaults.capabilities = vim.tbl_deep_extend(
-      'force',
-      lspconfig_defaults.capabilities,
-      require('cmp_nvim_lsp').default_capabilities()
-    )
+  -- LSP
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "mason-org/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
+      "saghen/blink.cmp",
+    },
+    config = function()
+      require("mason").setup()
 
-    -- 2. Optional: Configure custom settings natively BEFORE setting up mason-lspconfig
-    vim.lsp.config("pyright", {
-      settings = {
-        python = {
-          analysis = {
-            typeCheckingMode = "basic",
-          }
-        }
-      }
-    })
+      -- Installs the servers and enables them automatically
+      require("mason-lspconfig").setup({
+        ensure_installed = { "clangd", "basedpyright", "ruff", "lua_ls" },
+      })
 
-    -- 3. Initialize Mason-LSPconfig (automatically enables the servers in Neovim 0.11+)
-    require("mason-lspconfig").setup({
-      ensure_installed = { "lua_ls", "pyright", "ruff" }, 
-    })
+      -- Tell every server that the completion plugin exists
+      vim.lsp.config("*", {
+        capabilities = require("blink.cmp").get_lsp_capabilities(),
+      })
 
-    -- 4. Set up basic keybindings when an LSP attaches to a buffer
-    vim.api.nvim_create_autocmd('LspAttach', {
-      desc = 'LSP actions',
-      callback = function(event)
-        local opts = { buffer = event.buf }
+      -- C++
+      vim.lsp.config("clangd", {
+        cmd = {
+          "clangd",
+          "--background-index",
+          "--clang-tidy",
+          "--header-insertion=iwyu",
+          "--completion-style=detailed",
+        },
+      })
 
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-        vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-      end,
-    })
-  end,
+      -- Diagnostics appearance
+      vim.diagnostic.config({
+        virtual_text = true,
+        severity_sort = true,
+        float = { border = "rounded" },
+      })
+
+      -- Keymaps, only active in buffers with an LSP attached
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("UserLspAttach", { clear = true }),
+        callback = function(ev)
+          local map = function(keys, fn, desc)
+            vim.keymap.set("n", keys, fn, { buffer = ev.buf, desc = "LSP: " .. desc })
+          end
+          map("gd", vim.lsp.buf.definition, "Go to definition")
+          map("gD", vim.lsp.buf.declaration, "Go to declaration")
+          map("<leader>ld", vim.diagnostic.open_float, "Show diagnostic")
+          map("<leader>lf", function() vim.lsp.buf.format({ async = true }) end, "Format")
+
+          -- Ruff is only for linting/formatting; let basedpyright handle hover
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          if client and client.name == "ruff" then
+            client.server_capabilities.hoverProvider = false
+          end
+        end,
+      })
+    end,
+  },
 }

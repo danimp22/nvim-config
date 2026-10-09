@@ -10,13 +10,9 @@ return {
 
     highlight = {
       -- This enables the tree-sitter highlighting
-      enable = true, 
-      
+      enable = true,
       -- Disables standard vim highlighting to prevent conflicts and lag
       additional_vim_regex_highlighting = false,
     },
   },
-  -- config = function(_, opts)
-  --   require("nvim-treesitter.configs").setup(opts)
-  -- end
 }

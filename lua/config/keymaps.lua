@@ -1,44 +1,41 @@
 -- ############################ BASE NVIM ############################ --
+local map = vim.keymap.set
+
 -- Map leader key
 vim.g.mapleader = " "
 
 -- Exit insert mode
-vim.keymap.set("i", "jj", "<Esc>")
+map("i", "jj", "<Esc>")
 
 -- Paste text and don't put the deleted text into the paste registry
 -- Greatest remap ever!!
 -- stylua: ignore
-vim.keymap.set("x", "<leader>p", "\"_dP")
+map("x", "<leader>p", "\"_dP")
+
+-- Copy visual selection to clipboard
+map('v', '<C-c>', '"+y')
+
+-- Maintain visual mode after indenting
+map("v", "<", "<gv")
+map("v", ">", ">gv")
 
 -- Enter explore mode
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+map("n", "<leader>pv", vim.cmd.Ex)
 
 -- Center screen after scrolling with <C-d> or <C-u>
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "<C-f>", "<C-f>zz")
-vim.keymap.set("n", "<C-b>", "<C-b>zz")
-vim.keymap.set("n", "n", "nzz")
-vim.keymap.set("n", "N", "Nzz")
+map("n", "<C-d>", "<C-d>zz")
+map("n", "<C-u>", "<C-u>zz")
+map("n", "<C-f>", "<C-f>zz")
+map("n", "<C-b>", "<C-b>zz")
+map("n", "n", "nzz")
+map("n", "N", "Nzz")
 
 -- Open terminal from leader
-vim.keymap.set("n", "<leader>tt", ":terminal<cr>A", { desc = "Open terminal in new buffer" })
-vim.keymap.set("n", "<leader>tv", [[<cmd>vsplit | term<cr>A]], { desc = "Open terminal in vertical split" })
-vim.keymap.set("n", "<leader>th", [[<cmd>split | term<cr>A]], { desc = "Open terminal in horizontal split" })
-vim.keymap.set("t", "jj", "<C-\\><C-n>", { desc = "Use jj to enter in terminal normal mode" })
+map("n", "<leader>tt", ":terminal<cr>A", { desc = "Open terminal in new buffer" })
+map("n", "<leader>tv", [[<cmd>vsplit | term<cr>A]], { desc = "Open terminal in vertical split" })
+map("n", "<leader>th", [[<cmd>split | term<cr>A]], { desc = "Open terminal in horizontal split" })
+map("t", "<Esc>", "<C-\\><C-n>", { desc = "Use jj to enter in terminal normal mode" })
 
-
--- ############################ TELESCOPE ############################ --
-local tlcp = require("telescope.builtin")
-vim.keymap.set("n", "<leader>ff", tlcp.find_files, { desc = "Find files" })
-vim.keymap.set("n", "<leader>fg", tlcp.git_files, { desc = "Find git files" })
-vim.keymap.set("n", "<leader>fw", tlcp.grep_string, { desc = "Find words" })
-vim.keymap.set("n", "<leader><leader>", tlcp.buffers, { desc = "Find existing buffers" })
-
--- Shortcut for searching your Neovim configuration files
-vim.keymap.set("n", "<leader>fc", function()
-	tlcp.find_files({ cwd = vim.fn.stdpath("config") })
-end, { desc = "Find config files" })
 
 
 -- ############################ HARPOON ############################ --
@@ -59,16 +56,17 @@ vim.keymap.set("n", "<leader>he", function() harpoon.ui:toggle_quick_menu(harpoo
 -- Simplify remove terminal
 vim.keymap.set("n", "<leader>htt", function()
   -- Replace "terminal" with the exact Neovim command your <leader>tt mapping runs
-  vim.cmd("terminal") 
-  
+  vim.cmd("terminal")
+
   -- Equivalent to "jj" to exit terminal insert mode
-  vim.cmd("stopinsert") 
-  
+  vim.cmd("stopinsert")
+
   -- Overwrites index 1 with the newly created terminal buffer
-  harpoon:list():replace_at(1) 
-  
+  harpoon:list():replace_at(1)
+
   print("Restarted terminal")
 end)
+
 
 -- Access harpooon files
 vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
@@ -81,13 +79,30 @@ vim.keymap.set("n", "<leader>7", function() harpoon:list():select(7) end)
 vim.keymap.set("n", "<leader>8", function() harpoon:list():select(8) end)
 vim.keymap.set("n", "<leader>9", function() harpoon:list():select(9) end)
 
--- ############################ UNDO-TREE ############################ --
--- Set keymaps for the undo-tree
-vim.keymap.set("n", "<leader>uu", vim.cmd.UndotreeToggle, { desc = "Toggle Undo Tree" })
+
+-- ############################## YAZI ############################### --
+map("n", "<leader>e", "<cmd>Yazi<cr>", { desc = "Open File Explorer" })
+map("n", "<leader>e", "<cmd>Yazi cdw<cr>", { desc = "Open File Exporer at CWD" })
+map("n", "<leader>e", "<cmd>Yazi toggle<cr>", { desc = "Resume Last Yazi Session" })
+
+
+-- ############################ TELESCOPE ############################ --
+local tlcp = require("telescope.builtin")
+map("n", "<leader>ff", tlcp.find_files, { desc = "Find files" })
+map("n", "<leader>fg", tlcp.git_files, { desc = "Find git files" })
+map("n", "<leader>fw", tlcp.grep_string, { desc = "Find words" })
+map("n", "<leader><leader>", tlcp.buffers, { desc = "Find existing buffers" })
+map("n", "<leader>fth", function()
+  require("telescope.builtin").colorscheme({ enable_preview = true })
+end, { desc = "Pick colorscheme" })
+
+-- Shortcut for searching your Neovim configuration files
+map("n", "<leader>fc", function()
+	tlcp.find_files({ cwd = vim.fn.stdpath("config") })
+end, { desc = "Find config files" })
+
 
 -- ################## LAZYVIM SETTINGS ##################
-local map = vim.keymap.set
-
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
 map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
@@ -111,28 +126,8 @@ map("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", {
 -- buffers
 map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
-map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
-map("n", "]b", "<cmd>bnext<cr>", { desc = "Next Buffer" })
-map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
-map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
-map("n", "<leader>bd", function() Snacks.bufdelete() end, { desc = "Delete Buffer" })
-map("n", "<leader>bo", function() Snacks.bufdelete.other() end, { desc = "Delete Other Buffers" })
-map("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
-
--- lazygit
-map("n", "<leader>gL", function() Snacks.picker.git_log() end, { desc = "Git Log (cwd)" })
-map("n", "<leader>gb", function() Snacks.picker.git_log_line() end, { desc = "Git Blame Line" })
-map("n", "<leader>gf", function() Snacks.picker.git_log_file() end, { desc = "Git Current File History" })
-map({ "n", "x" }, "<leader>gB", function() Snacks.gitbrowse() end, { desc = "Git Browse (open)" })
-map({ "n", "x" }, "<leader>gY", function() Snacks.gitbrowse({
-		open = function(url) vim.fn.setreg("+", url) end,
-		notify = false,
-	})
-end, { desc = "Git Browse (copy)" })
 
 -- windows
 map("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
 map("n", "<leader>|", "<C-W>v", { desc = "Split Window Right", remap = true })
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })
-Snacks.toggle.zoom():map("<leader>wm"):map("<leader>uZ")
-Snacks.toggle.zen():map("<leader>uz")
