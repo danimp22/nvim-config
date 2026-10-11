@@ -31,10 +31,16 @@ map("n", "n", "nzz")
 map("n", "N", "Nzz")
 
 -- Open terminal from leader
-map("n", "<leader>tt", ":terminal<cr>A", { desc = "Open terminal in new buffer" })
+map("n", "<leader>tt", ":ToggleTerm<CR>", { desc = "Open terminal in new buffer" })
 map("n", "<leader>tv", [[<cmd>vsplit | term<cr>A]], { desc = "Open terminal in vertical split" })
 map("n", "<leader>th", [[<cmd>split | term<cr>A]], { desc = "Open terminal in horizontal split" })
 map("t", "<Esc>", "<C-\\><C-n>", { desc = "Use jj to enter in terminal normal mode" })
+
+
+
+-- ########################### DEBUGGER ############################ --
+map("n", "<leader>db", "<cmd> DapToggleBreakpoint <CR>", { desc = "Toggle Break Point" })
+map("n", "<leader>dr", "<cmd> DapContinue <CR>", { desc = "Start or Continue Debugger" })
 
 
 
@@ -52,21 +58,6 @@ vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end)
 vim.keymap.set("n", "<leader>hr", function() harpoon:list():remove() end)
 vim.keymap.set("n", "<leader>hc", function() harpoon:list():clear() print("Cleared harpoon list") end)
 vim.keymap.set("n", "<leader>he", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
-
--- Simplify remove terminal
-vim.keymap.set("n", "<leader>htt", function()
-  -- Replace "terminal" with the exact Neovim command your <leader>tt mapping runs
-  vim.cmd("terminal")
-
-  -- Equivalent to "jj" to exit terminal insert mode
-  vim.cmd("stopinsert")
-
-  -- Overwrites index 1 with the newly created terminal buffer
-  harpoon:list():replace_at(1)
-
-  print("Restarted terminal")
-end)
-
 
 -- Access harpooon files
 vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
