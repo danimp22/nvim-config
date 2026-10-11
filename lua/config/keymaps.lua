@@ -38,6 +38,25 @@ map("t", "<Esc>", "<C-\\><C-n>", { desc = "Use jj to enter in terminal normal mo
 
 
 
+-- ############################# GIT ############################### --
+local neogit = require('neogit')
+local windowType = "floating"
+-- vim.keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>", { desc = "Open Neogit UI" })
+vim.keymap.set( "n", "<leader>gg", function() neogit.open({ kind = windowType }) end,
+    { desc = "Open Neogit UI" }
+)
+vim.keymap.set("n", "<leader>gs", function()
+    local current_file_dir = vim.fn.expand("%:p:h")
+    -- Fallback to the global current working directory if the buffer has no path
+    if current_file_dir == "" then
+        current_file_dir = vim.fn.getcwd()
+    end
+
+    neogit.open({ cwd = current_file_dir, kind = windowType })
+    end, { desc = "Open Neogit in current file directory" })
+
+
+
 -- ########################### DEBUGGER ############################ --
 map("n", "<leader>db", "<cmd> DapToggleBreakpoint <CR>", { desc = "Toggle Break Point" })
 map("n", "<leader>dr", "<cmd> DapContinue <CR>", { desc = "Start or Continue Debugger" })
