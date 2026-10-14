@@ -34,7 +34,7 @@ map("n", "N", "Nzz")
 map("n", "<leader>tt", ":ToggleTerm<CR>", { desc = "Open terminal in new buffer" })
 map("n", "<leader>tv", [[<cmd>vsplit | term<cr>A]], { desc = "Open terminal in vertical split" })
 map("n", "<leader>th", [[<cmd>split | term<cr>A]], { desc = "Open terminal in horizontal split" })
-map("t", "<Esc>", "<C-\\><C-n>", { desc = "Use jj to enter in terminal normal mode" })
+map("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal insert mode" })
 
 
 
@@ -91,9 +91,9 @@ vim.keymap.set("n", "<leader>9", function() harpoon:list():select(9) end)
 
 
 -- ############################## YAZI ############################### --
-map("n", "<leader>e", "<cmd>Yazi<cr>", { desc = "Open File Explorer" })
-map("n", "<leader>e", "<cmd>Yazi cdw<cr>", { desc = "Open File Exporer at CWD" })
-map("n", "<leader>e", "<cmd>Yazi toggle<cr>", { desc = "Resume Last Yazi Session" })
+map("n", "<leader>ee", "<cmd>Yazi<cr>", { desc = "Open File Explorer" })
+map("n", "<leader>ec", "<cmd>Yazi cwd<cr>", { desc = "Open File Exporer at CWD" })
+map("n", "<leader>et", "<cmd>Yazi toggle<cr>", { desc = "Resume Last Yazi Session" })
 
 
 -- ############################ TELESCOPE ############################ --
